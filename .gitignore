@@ -22,3 +22,6 @@
 /clien/tnpm-debug.log*
 /client/yarn-debug.log*
 /client/yarn-error.log*
+
+#config
+/server/config
