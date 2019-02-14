@@ -38,19 +38,19 @@ class Form1 extends Component {
       <Form>
         <FormGroup>
             <Label for='pName'>Product Name:</Label>
-            <Input type="text" id="pName" value={this.props.formData.productName} placeholder='Enter Product Name' onChange={(e) => { this.props.handleChange(e, 'formData', 'productName') }}/>
+            <Input type="text" required id="pName" value={this.props.formData.productName} placeholder='Enter Product Name' onChange={(e) => { this.props.handleChange(e, 'formData', 'productName') }}/>
         </FormGroup>
         <FormGroup>
             <Label for='pId'>Product Id:</Label>
-            <Input type="text" id="pId" value={this.props.formData.productId} placeholder='Enter Product ID' onChange={(e) => { this.props.handleChange(e, 'formData', 'productId') }}/>
+            <Input type="text" required id="pId" value={this.props.formData.productId} placeholder='Enter Product ID' onChange={(e) => { this.props.handleChange(e, 'formData', 'productId') }}/>
         </FormGroup>
         <FormGroup>
             <Label for='prize'>Prize:</Label>
-            <Input type="text" id="prize" value={this.props.formData.prize} placeholder='Enter Product Prize' onChange={(e) => { this.props.handleChange(e, 'formData', 'prize') }}/>
+            <Input type="text" required id="prize" value={this.props.formData.prize} placeholder='Enter Product Prize' onChange={(e) => { this.props.handleChange(e, 'formData', 'prize') }}/>
         </FormGroup>
         <FormGroup>
             <Label for='quantity'>Quantity:</Label>
-            <Input type="text" id="quantity" value={this.props.formData.quantity} placeholder='Enter Product Quantity' onChange={(e) => { this.props.handleChange(e, 'formData', 'quantity') }}/>
+            <Input type="text" required id="quantity" value={this.props.formData.quantity} placeholder='Enter Product Quantity' onChange={(e) => { this.props.handleChange(e, 'formData', 'quantity') }}/>
         </FormGroup>
         <Button onClick={(e) => this.insertData(e)}>SUBMIT</Button>
       </Form>

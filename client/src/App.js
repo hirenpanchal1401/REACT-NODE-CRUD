@@ -25,6 +25,7 @@ class App extends Component {
     this.updateformData = this.updateformData.bind(this);
     this.editData = this.editData.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    
   }
 
   updateData(data) {
@@ -62,12 +63,14 @@ class App extends Component {
     this.setState({ [target]: temp })
   }
 
+  
+
   render() {
     return (
         <Router>
           <div>
             <Navbar1 />
-            <Route exact path='/' render={(props)=><DataTable {...props} {...this.state} updateData={this.updateData} editData={this.editData} />}/>
+            <Route exact path='/' render={(props)=><DataTable {...props} handleSearch={this.handleSearch} {...this.state} updateData={this.updateData} editData={this.editData} />}/>
             <Route path='/form' render={(props)=><Form1 {...props} {...this.state} updateState={this.updateState} updateformData={this.updateformData} handleChange={this.handleChange}/>}/>
           </div>
         </Router>
