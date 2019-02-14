@@ -12,16 +12,20 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      productId: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       prize: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       quantity: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       totalAmount: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       createdAt: {
