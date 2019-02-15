@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table , Button , Form, FormGroup, Input} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import debounce from './Debounce';
 class DataTable extends Component {
   constructor(props) {
     super(props)
@@ -18,7 +18,7 @@ class DataTable extends Component {
   }
 
   getData() {
-    axios.get('http://localhost:3001/api/product/list?search='+this.state.search+'&skip='+this.state.skip)
+    axios.get('http://localhost:3001/api/product/list')
       .then((res) => {
         let data = res.data.data;
         this.props.updateData(data)
@@ -30,8 +30,22 @@ class DataTable extends Component {
     console.log(id)
     axios.delete('http://localhost:3001/api/product/' + id + '/delete')
       .then(() => {
+        console.log(this.props.data.length)
+        if(this.props.data.length===1){
+          this.getData();
+          this.setState({skip:0})
+        }else{
+          let l = this.props.data.length
+          axios.get('http://localhost:3001/api/product/list?limit='+l+'&skip='+this.state.skip)
+          .then((res) => {
+          let data = res.data.data;
+          this.props.updateData(data)
+      })
+      .catch(err => console.log)
+        }
+        
         console.log('deleted')
-        this.getData();
+        
       }).catch((err) => {
         console.log(err)
       })
@@ -41,31 +55,46 @@ class DataTable extends Component {
     this.getData();
   }
 
-  componentDidUpdate() {
-    this.getData()
-  }
+  
 
-  handleSearch(e){
-    this.setState({ search: e.target.value});
-    
-  }
+  handleSearch = debounce((e)=>{
+    this.setState({search: e})
+    axios.get('http://localhost:3001/api/product/list?search='+this.state.search)
+    .then((res) => {
+      let data = res.data.data;
+      this.props.updateData(data)
+    })
+    .catch(err => {console.log(err)})
+    },500)
+  
 
   handleNext(){
+    console.log(this.props.data.length)
       let x = this.state.skip + 5;
       if(x<=this.props.data.length){
-        this.setState({ skip : x});
-        this.getData();
+        axios.get('http://localhost:3001/api/product/list?skip='+x)
+        .then((res) => {
+          let data = res.data.data;
+          this.props.updateData(data)
+        })
+        .catch(err => {console.log(err)
+        })
+        this.setState({skip : x})
+        console.log(x)
       }
-      console.log(this.state.skip);
-  }
-
+    }
   handlePrev(){
     let x = this.state.skip - 5;
     if(x>=0){
+      axios.get('http://localhost:3001/api/product/list?skip='+x)
+        .then((res) => {
+          let data = res.data.data;
+          this.props.updateData(data)
+        })
+        .catch(err => {console.log(err)
+        })
       this.setState({ skip : x});
-      this.getData();
     }
-    console.log(this.state.skip);
   }
 
   render() {
@@ -73,7 +102,7 @@ class DataTable extends Component {
     <>
       <Form>
           <FormGroup>
-            <Input type="search" id="psearch" value={this.state.search} placeholder='Search Product Name Here. . .' onChange={(e)=>{this.handleSearch(e)}}/>
+            <Input type="search" id="psearch"  placeholder='Search Product Name Here. . .' onChange={(e)=>{this.handleSearch(e.target.value)}}/>
           </FormGroup>
       </Form>
       <Table>
